@@ -12,7 +12,7 @@ public class Puzzle4 {
             Couple cpl = SplitAssignment(line);
             Pair elf1 = SplitZone(cpl.left);
             Pair elf2 = SplitZone(cpl.right);
-            if (elf1.contains(elf2) | elf2.contains(elf1)) {
+            if (elf1.overlap(elf2) || elf2.overlap(elf1)) { 
                 result++;
             }
         }
@@ -26,12 +26,19 @@ public class Puzzle4 {
 
     private static Pair SplitZone(String cpl) {
         String[] tmp = cpl.split("-");
-        return new Pair(1, 1);
+        return new Pair(Integer.parseInt(tmp[0]), Integer.parseInt(tmp[1]));
     }
 
     private record Pair(int left, int right) {
         boolean contains(Pair p) {
-            if (this.left <= p.left & this.right >= p.right) {
+            if (this.left <= p.left && this.right >= p.right) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+        boolean overlap(Pair p) {
+            if ((this.left <= p.left && this.right >= p.left) || (this.left <= p.right && this.right >= p.right)) {
                 return true;
             } else {
                 return false;

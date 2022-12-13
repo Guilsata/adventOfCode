@@ -7,7 +7,7 @@ import java.util.ArrayList;
 public class UtilsFile{
     public static ArrayList<String> myReadFile(String filename){
       String line;
-      String pathname = "C:\\Users\\guils\\Documents\\Informatique\\advent of code\\2022\\input\\"+filename;
+      String pathname = "input\\"+filename;
       ArrayList<String> data = new ArrayList<String>();
       try{
         // Le fichier d'entrée

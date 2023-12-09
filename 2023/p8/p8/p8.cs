@@ -1,4 +1,4 @@
-﻿internal class Program
+﻿internal class p8
 {
     private static void Main(string[] args)
     {
@@ -47,18 +47,84 @@
                 }
             }
         }
-        
-        eachStep = eachStep.OrderByDescending(e => e).ToList();
-        eachStep.ForEach(Console.WriteLine);
 
-        //43089384579255253
-        long r = BrutForceSolution(eachStep);
+        eachStep = eachStep.OrderByDescending(e => e).ToList();
+
+        //long r = BrutForceSolution(eachStep);
+
+        List<long> primeNumbers = PrimeNumberUnder((int)Math.Sqrt(eachStep.First()));
+        List<List<long>> listls = new List<List<long>>();
+        
+        eachStep.ForEach(e => listls.Add(Decomposition(e, primeNumbers)));
+
+        List<long> rtr = new List<long>();
+        foreach (List<long> ls in listls) 
+        {
+            foreach (long l in ls) 
+            {
+                if (rtr.Exists(e => e == l))
+                {
+                    while(rtr.Count(e => e == l)- ls.Count(e => e == l) != 0)
+                    {
+                        rtr.Add(l);
+                    }
+                }
+                else 
+                {
+                    rtr.Add(l);
+                }
+            }
+        }
+        long r = 1;
+        rtr.ForEach(e=>r*=e);
         Console.WriteLine(r);
     }
+    
+    public static List<long> PrimeNumberUnder(int number) 
+    {//algorithme naif
+        List<long> longs = new List<long> { 2 };
+        foreach (long cdt in Enumerable.Range(2, number - 1)) 
+        { 
+            bool isPrime = true;
+            longs.ForEach(l => { if (isPrime & cdt % l == 0) { isPrime = false; } });
+            if (isPrime) { longs.Add(cdt); }; 
+        }
+        return longs;
+    }
 
-    public static List<long> 
+    public static List<long> Decomposition(long number, List<long> primeNumbers)
+    {
+        List<long> rtr = new List<long>();
+        return Decomposition(number, primeNumbers, rtr);
+    }
 
-    public static List<long> Decomposition() { return new List<long>(); }
+    private static List<long> Decomposition(long number, List<long> primeNumbers, List<long> rtr) 
+    {
+        bool IsPrimeNumber(long number, List<long> listPrimeNumber)
+        {
+            foreach (long cdt in listPrimeNumber)
+            {
+                if (number % cdt == 0) { return false; };
+            }
+            return true;
+        }
+        void IsMultiple(long number, long cdt)
+        {
+            if (number % cdt == 0)
+            {
+                rtr.Add(cdt);
+                if (IsPrimeNumber(number / cdt, primeNumbers)) { rtr.Add(number / cdt); }
+                Decomposition(number / cdt, primeNumbers, rtr);
+            }
+            return;
+            
+        }
+        foreach (long cdt in primeNumbers) 
+        {
+            IsMultiple(number, cdt);
+        }
+        return rtr; 
+    }
 
     public static long BrutForceSolution(List<long> eachStep) 
     {

@@ -1,7 +1,9 @@
 import java.util.ArrayList;
 
+import utilsPuzzle7.DirectoryNode;
+
 public class Puzzle7 {
-    ArrayList<String> file = UtilsFile.myReadFile("data1.txt");
+    
     // if first car $ is command
     // cd [..] go in [..]
     // cd .. go to parent directory
@@ -19,4 +21,12 @@ public class Puzzle7 {
      * it could be easier to have a dictionnary which link name or an unique id and
      * the directory object
      */
+    public static void main(String[] args){
+        ArrayList<String> file = UtilsFile.myReadFile("data7.txt");
+        DirectoryNode fileSystem = DirectoryNode.initSeed();
+        DirectoryNode currentDirectory;
+        for(String line : file){
+
+        }
+    }
 }

@@ -63,4 +63,10 @@ public class DirectoryNode {
             leaf.add(new MyFile(name, size));
         }
     }
+
+    public DirectoryNode getParent(){return this.parent;} 
+
+    public int getSize(){
+        return //faire une lambda ici
+    }
 }

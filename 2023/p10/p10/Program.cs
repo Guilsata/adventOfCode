@@ -115,6 +115,7 @@ internal class Program
             nodes.Insert(col + 1, new Node(true,falseLoop));
         }
     }
+   
     private static void AddRow(List<List<Node>> listNodes, int row) 
     {
         if (!listNodes[row + 1][0].Fictional)
@@ -139,7 +140,6 @@ internal class Program
         }
         List<Node> watchList = new List<Node>();
         nodes.ForEach(node => { watchList.Add(node);node.Seen = false; });
-        Console.WriteLine($"{maxCol} {maxRow} :: {maxRow*maxCol}");
         while (watchList.Count != 0)
         {
             if (watchList.Last().IsOut) 
@@ -153,26 +153,6 @@ internal class Program
             {
                 watchList.Last().Seen = true;
                 watchList.Remove(watchList.Last()); 
-            }
-        }
-    }
-
-    private static bool AtLeastOneNeighborExternal(List<Node> nodes) 
-    {
-        return nodes.Exists(e => e.IsOut);
-    }
-
-    private static void NeighborsToDoubleCheck(List<Node> nodes, List<Node> neighbors,int maxCol,int maxRow) 
-    {
-        foreach (Node node in neighbors)
-        {
-            if (node.IsLoop | node.IsOut) { continue; }
-            PositionOf(nodes.IndexOf(node), maxCol, out int col, out int row);
-            List<Node> AbsNeighbors = AbsoluteNeighbors(nodes, maxCol, maxRow, col, row);
-            if (AtLeastOneNeighborExternal(AbsNeighbors))
-            {
-                node.IsOut = true;
-                NeighborsToDoubleCheck(nodes, AbsNeighbors, maxCol, maxRow);
             }
         }
     }
